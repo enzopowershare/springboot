@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudwise.dao.PersoninfoDao">
+
+    <resultMap type="com.cloudwise.entity.Personinfo" id="PersoninfoMap">
+        <result property="personid" column="personid" jdbcType="INTEGER"/>
+        <result property="personname" column="personname" jdbcType="VARCHAR"/>
+        <result property="personareaid" column="personareaid" jdbcType="INTEGER"/>
+        <result property="personage" column="personage" jdbcType="INTEGER"/>
+        <result property="personaddress" column="personaddress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PersoninfoMap">
+        select personid,
+               personname,
+               personareaid,
+               personage,
+               personaddress
+        from my_db.personinfo
+        where personid = #{personid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PersoninfoMap">
+        select personid,
+               personname,
+               personareaid,
+               personage,
+               personaddress
+        from my_db.personinfo
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PersoninfoMap">
+        select
+        personid, personname, personareaid, personage, personaddress
+        from my_db.personinfo
+        <where>
+            <if test="personid != null">
+                and personid = #{personid}
+            </if>
+            <if test="personname != null and personname != ''">
+                and personname = #{personname}
+            </if>
+            <if test="personareaid != null">
+                and personareaid = #{personareaid}
+            </if>
+            <if test="personage != null">
+                and personage = #{personage}
+            </if>
+            <if test="personaddress != null and personaddress != ''">
+                and personaddress = #{personaddress}
+            </if>
+        </where>
+    </select>
+    <select id="getRowCount" resultType="java.lang.Long">
+        select count(*) count
+        from personinfo
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="personid" useGeneratedKeys="true">
+        insert into my_db.personinfo(personname, personareaid, personage, personaddress)
+        values (#{personname}, #{personareaid}, #{personage}, #{personaddress})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="personid" useGeneratedKeys="true">
+        insert into my_db.personinfo(personname, personareaid, personage, personaddress)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.personname}, #{entity.personareaid}, #{entity.personage}, #{entity.personaddress})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="personid" useGeneratedKeys="true">
+        insert into my_db.personinfo(personname, personareaid, personage, personaddress)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.personname}, #{entity.personareaid}, #{entity.personage}, #{entity.personaddress})
+        </foreach>
+        on duplicate key update
+        personname = values(personname) , personareaid = values(personareaid) , personage = values(personage) ,
+        personaddress = values(personaddress)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_db.personinfo
+        <set>
+            <if test="personname != null and personname != ''">
+                personname = #{personname},
+            </if>
+            <if test="personareaid != null">
+                personareaid = #{personareaid},
+            </if>
+            <if test="personage != null">
+                personage = #{personage},
+            </if>
+            <if test="personaddress != null and personaddress != ''">
+                personaddress = #{personaddress},
+            </if>
+        </set>
+        where personid = #{personid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from my_db.personinfo
+        where personid = #{personid}
+    </delete>
+    <delete id="deleteByIds" parameterType="list">
+        delete from personinfo where personid in
+        <foreach collection="personList" item="persons" open="(" close=")" separator=",">
+            #{persons}
+        </foreach>
+    </delete>
+
+</mapper>

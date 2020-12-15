@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示所有用户信息</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<!--查看功能的form-->
+<form class="layui-form" action="" id="detailPersonForm" lay-filter="detailPersonForm"
+      style="display: none;margin-right: 40px;margin-top: 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">personId</label>
+        <div class="layui-input-block">
+            <input type="text" name="personid" readonly="readonly" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personName</label>
+        <div class="layui-input-block">
+            <input type="text" name="personname" readonly="readonly" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personAge</label>
+        <div class="layui-input-block">
+            <input type="text" name="personage" readonly="readonly" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personAddress</label>
+        <div class="layui-input-block">
+            <input type="text" name="personaddress" readonly="readonly" required lay-verify="required"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">location</label>
+        <div class="layui-input-block">
+            <select name="personareaid" lay-verify="required">
+                <option value=""></option>
+                <option value="1">丰台区</option>
+                <option value="2">海淀区</option>
+                <option value="3">房山区</option>
+                <option value="4">西城区</option>
+            </select>
+        </div>
+    </div>
+    <!--    <div class="layui-form-item">-->
+    <!--        <label class="layui-form-label">personAreaId</label>-->
+    <!--        <div class="layui-input-block">-->
+    <!--            <input type="text" name="personareaid" readonly="readonly" required lay-verify="required" autocomplete="off"-->
+    <!--                   class="layui-input">-->
+    <!--        </div>-->
+    <!--    </div>-->
+</form>
+<!--添加功能的form-->
+<form class="layui-form" action="" id="insertPersonForm" style="display: none;margin-right: 40px;margin-top: 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">personName</label>
+        <div class="layui-input-block">
+            <input type="text" name="personname" required lay-verify="required" placeholder="请输入人员姓名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personAge</label>
+        <div class="layui-input-block">
+            <input type="text" name="personage" required lay-verify="required" placeholder="请输入人员年龄" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personAddress</label>
+        <div class="layui-input-block">
+            <input type="text" name="personaddress" required lay-verify="required" placeholder="请输入人员所在地"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">location</label>
+        <div class="layui-input-block">
+            <select name="personareaid" lay-verify="required">
+                <option value=""></option>
+                <option value="1">丰台区</option>
+                <option value="2">海淀区</option>
+                <option value="3">房山区</option>
+                <option value="4">西城区</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="addPersonFilter">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    //Demo
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(addPersonFilter)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+<!--编辑功能的form-->
+<form class="layui-form" action="" id="updatePersonForm" lay-filter="updatePersonForm"
+      style="display: none;margin-right: 40px;margin-top: 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">personId</label>
+        <div class="layui-input-block">
+            <input type="text" name="personid" readonly="readonly" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personName</label>
+        <div class="layui-input-block">
+            <input type="text" name="personname" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personAge</label>
+        <div class="layui-input-block">
+            <input type="text" name="personage" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">personAddress</label>
+        <div class="layui-input-block">
+            <input type="text" name="personaddress" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">location</label>
+        <div class="layui-input-block">
+            <select name="personareaid" lay-verify="required">
+                <option value=""></option>
+                <option value="1">丰台区</option>
+                <option value="2">海淀区</option>
+                <option value="3">房山区</option>
+                <option value="4">西城区</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="updatePersonFilter">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听提交
+        form.on('submit(updatePersonFilter)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+
+<!--顶部搜索框-->
+<div class="findTable">
+    用户ID：
+    <div class="layui-inline">
+        <input class="layui-input" name="id" id="findIdReload" autocomplete="off">
+    </div>
+    <!--    用户名：-->
+    <!--    <div class="layui-inline">-->
+    <!--        <input class="layui-input" name="id" id="findNameReload" autocomplete="off">-->
+    <!--    </div>-->
+    <button class="layui-btn" data-type="reload">搜索</button>
+    <button class="layui-btn layui-btn-primary" data-type="reset">重置</button>
+</div>
+
+<table id="showPerson" lay-filter="test"></table>
+</body>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-xs" lay-event="addPerson"><i class="layui-icon layui-icon-add-1"></i>
+        </button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deletePersons"><i
+                class="layui-icon layui-icon-delete"></i></button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    layui.use(['table', 'layer', 'jquery', 'form'], function () {
+        var table = layui.table;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var form = layui.form;
+
+        var personTable = table.render({
+            elem: '#showPerson'
+            , url: '/personinfo/selectAllByLimit' //数据接口
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['filter', 'exports']
+            , title: '用户数据表'
+            , page: true
+            , limit: 10
+            , cols: [
+                [ //表头
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'personid', title: 'id', width: 80, fixed: true}
+                    , {field: 'personname', title: 'name', width: 100}
+                    , {field: 'personage', title: 'age', width: 80}
+                    , {field: 'personaddress', title: 'address', width: 100}
+                    , {field: 'personareaid', title: 'areaId', width: 100}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 170}
+                ]
+            ]
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                form.val('detailPersonForm', {
+                    'personid': data.personid,
+                    'personname': data.personname,
+                    'personage': data.personage,
+                    'personaddress': data.personaddress,
+                    'personareaid': data.personareaid
+                });
+                layer.open({
+                    title: '查看人员信息',
+                    type: 1,
+                    area: ['500px', '400px'],
+                    content: $("#detailPersonForm")//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                });
+            } else if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    //删除数据库中的数据
+                    $.ajax({
+                        url: "/personinfo/deleteById",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {personid: data.personid},
+                        success: function (ret) {
+                            if (ret.code == 0) {
+                                //刷新表格数据
+                                personTable.reload({
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                                layer.msg(ret.msg, {icon: 6});
+                            } else {
+                                layer.msg(ret.msg, {icon: 5});
+                            }
+
+                        }
+                    })
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            } else if (layEvent === 'edit') {
+                form.val('updatePersonForm', {
+                    'personid': data.personid,
+                    'personname': data.personname,
+                    'personage': data.personage,
+                    'personaddress': data.personaddress,
+                    'personareaid': data.personareaid
+                });
+                layer.open({
+                    title: '更新人员信息',
+                    type: 1,
+                    area: ['500px', '500px'],
+                    content: $("#updatePersonForm")//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                });
+            }
+        });
+
+        //form表单实现更新功能
+        form.on('submit(updatePersonFilter)', function (data) {
+            //提交表单数据
+            $.ajax({
+                url: "/personinfo/update",
+                type: "POST",
+                dataType: "JSON",
+                data: data.field,
+                success: function (ret) {
+                    if (ret.code == 0) {
+                        //关闭对话框
+                        layer.closeAll();
+                        //刷新表格数据
+                        personTable.reload({
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg(ret.msg, {icon: 6});
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
+                    }
+
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id)
+                , data = checkStatus.data; //获取选中的数据
+            switch (obj.event) {
+                case 'addPerson':
+                    layer.open({
+                        title: '添加人员',
+                        type: 1,
+                        area: ['500px', '450px'],
+                        content: $("#insertPersonForm")//这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                    });
+                    break;
+                case 'deletePersons':
+                    if (data.length === 0) {
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('真的删除行么', function () {
+                            //for循环收集所有选中的id
+                            var ids = [];
+                            for (let i = 0; i < data.length; i++) {
+                                ids[i] = data[i].personid;
+                            }
+                            $.ajax({
+                                url: "/personinfo/deletePersonByIds",
+                                type: "POST",
+                                dataType: "JSON",
+                                data: {ids: ids.join(",")},
+                                success: function (ret) {
+                                    if (ret.code == 0) {
+                                        //刷新表格数据
+                                        personTable.reload({
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        });
+                                        layer.msg(ret.msg, {icon: 6});
+                                    } else {
+                                        layer.msg(ret.msg, {icon: 5});
+                                    }
+                                }
+                            })
+                        });
+                    }
+                    break;
+            }
+        });
+
+        //form表单实现添加功能
+        form.on('submit(addPersonFilter)', function (data) {
+            //提交表单数据
+            $.ajax({
+                url: "/personinfo/insert",
+                type: "POST",
+                dataType: "JSON",
+                data: data.field,
+                success: function (ret) {
+                    if (ret.code == 0) {
+                        //关闭对话框
+                        layer.closeAll();
+                        //刷新表格数据
+                        personTable.reload({
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg(ret.msg, {icon: 6});
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
+                    }
+
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        //
+        // //实现顶部id搜索框
+        // var active = {
+        //     reload: function () {
+        //         var findIdReload = $('#findIdReload');
+        //         //执行重载
+        //         table.reload('personReload', {
+        //             page: {
+        //                 curr: 1 //重新从第 1 页开始
+        //             }
+        //             , where: {
+        //                 key: {
+        //                     personid: findIdReload.val()
+        //                 }
+        //             }
+        //         }, 'data');
+        //     }
+        // };
+        //
+        // $('.findTable .layui-btn').on('click', function () {
+        //     var type = $(this).data('type');
+        //     active[type] ? active[type].call(this) : '';
+        // });
+    });
+</script>
+</html>
